@@ -1,0 +1,2 @@
+# BIS-634-Homework-XinyueQiu
+All of the codes and interpretations are stored inside the file: Assignment2.pdf. A markdown version of codes and interpretation are stored in Assignment2.ipynb. The additional multiprocessing codes to exercise 4 is stored within exercise4.py. 
