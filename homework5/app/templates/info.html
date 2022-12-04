@@ -6,6 +6,15 @@
                 font-family: "Myriad Pro", "sans-serif";
                 font-size: 20pt;
                 color: #1175d8;
+                font-weight: bold;
+            }
+            q {
+                color: black;
+                font-style: italic;
+                font-size: 15pt;
+            }
+            body {
+                background-color: lightblue;
             }
         </style>
         <title>Info</title>
@@ -17,13 +26,14 @@
     <body>
         <div id="id01"></div>
         <a href="./"><div>Home</div></a>
+        </style>
         <script type="text/javascript">
             const element = document.getElementById("id01");
             if (rate == "none") {
-                element.innerHTML = "<p>Invalid State Name</p>";
+                element.innerHTML = "<p>Invalid State Name! Check your typed state name and remember to capitalize the first letter of your state</p>";
             }
             else {
-                element.innerHTML = "<p>State: </p>" + name + "<p>Age-Adjusted Incidence Rate: </p>" + rate ;
+                element.innerHTML = "<p>State: </p><q>" +  name + "</q><p>Age-Adjusted Incidence Rate: </p><q>" + rate + "</q>" ;
             }
         </script>
     </body>
