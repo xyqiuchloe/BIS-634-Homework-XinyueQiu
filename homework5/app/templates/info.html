@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <style type = "text/css">
+            p
+            {
+                font-family: "Myriad Pro", "sans-serif";
+                font-size: 20pt;
+                color: #1175d8;
+            }
+        </style>
+        <title>Info</title>
+        <script type="text/javascript">
+            var name = '{{ name }}';
+            var rate = '{{ rate }}';
+        </script>
+    </head>
+    <body>
+        <div id="id01"></div>
+        <a href="./"><div>Home</div></a>
+        <script type="text/javascript">
+            const element = document.getElementById("id01");
+            if (rate == "none") {
+                element.innerHTML = "<p>Invalid State Name</p>";
+            }
+            else {
+                element.innerHTML = "<p>State: </p>" + name + "<p>Age-Adjusted Incidence Rate: </p>" + rate ;
+            }
+        </script>
+    </body>
+</html>
