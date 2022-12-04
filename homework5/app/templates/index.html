@@ -1,14 +1,31 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <style type = "text/css">
+            p
+            {
+                font-family: "Myriad Pro", "sans-serif";
+                font-size: 15pt;
+                color: #1175d8;
+                font-weight: bold;
+            }
+            q {
+                color: black;
+                font-style: italic;
+                font-size: 15pt;
+            }
+            body {
+                background-color: lightblue;
+            }
+        </style>
         <title>Home Page</title>
     </head>
     <body>
-        Type a complete state name (Capitalize first letter of your state name)<br>
+        <p>Type a complete state name (Capitalize first letter of your state name)</p><br>
         <form action="/info" method="GET">
             <textarea style="width:50%; height: 1em" name="name"></textarea>
             <br><br>
-            Submit your state name to find its statewise Age-Adjusted Incidence Rate of cancer<br>
+            <p>Submit your state name to find its statewise Age-Adjusted Incidence Rate of cancer</p><br>
             <input type="submit" value="Submit">
         </form>
     </body>
