@@ -1,7 +1,7 @@
 For this assignment, exercise 1 and 2 is written in file: assignment5.ipynb. 
 
 
-Exercise 3 is written in fodler app. Throughout exercise 3, I have built three documents: incd.py, index.html, info.html. In app folder, template folder contains file info.html, index.html. incd.py help builds up the routes for flask to access; index contains information of the home page, where users type in the state name and acquire age-adjusted rate; info.html defines the way to acquire the information and return it.
+Exercise 3 is written in fodler app. Throughout exercise 3, I have built three documents: incd.py, index.html, info.html. In app folder, template folder contains file info.html, index.html. incd.py file is inside app folder, and it help builds up the routes for flask to access; index.html contains information of the home page, where users type in the state name and acquire age-adjusted rate; info.html defines the way to acquire the information from csv file and return it.
 
 
 For the exercise 3, the data being extracted comes from source: https://statecancerprofiles.cancer.gov/incidencerates/index.php 
