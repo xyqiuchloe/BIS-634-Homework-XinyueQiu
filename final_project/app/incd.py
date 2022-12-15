@@ -1,5 +1,6 @@
 import pandas as pd
 from flask import Flask, render_template, request
+import json
 import pandas as pd
 import numpy as np
 import plotly.express as px
@@ -12,7 +13,8 @@ from sklearn.linear_model import LogisticRegression
 from sklearn import metrics
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score,classification_report,plot_confusion_matrix
+from sklearn.metrics import accuracy_score,f1_score
+import plotly.figure_factory as ff
 
 
 app = Flask(__name__)
@@ -33,21 +35,67 @@ scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
-#logistic regression
-logreg = LogisticRegression(random_state=16)
-logreg.fit(X_train_scaled, y_train.values.ravel())
-y_pred = logreg.predict(X_test_scaled)
 
-#confusion matrix
-cnf_matrix = metrics.confusion_matrix(y_test, y_pred)
-#accuracy, f1 score, 
-acc_log = metrics.accuracy_score(y_test, y_pred)
 
 @app.route("/logistic_regression")
-def log_reg_func(name):
-    df = pd.read_csv("incd.csv")
-    rate = df[df["State"] == name]["Rate"].item()
-    return {"name": name, "age-adjusted_incidence_rate": rate}
+def logistic_regression():
+    #logistic regression
+    logreg = LogisticRegression(random_state=16)
+    logreg.fit(X_train_scaled, y_train.values.ravel())
+    y_pred = logreg.predict(X_test_scaled)
+
+    #confusion matrix
+    cnf_matrix = metrics.confusion_matrix(y_test, y_pred)
+
+    #accuracy, f1 score, 
+    acc_log = metrics.accuracy_score(y_test, y_pred)
+    f1_log = metrics.f1_score(y_test, y_pred)
+
+    ##set up annotation of confusion matrix
+    x = ['no diabetes','diabetes']
+    y = ['no diabetes','diabetes']
+    z_text = [[str(y) for y in x] for x in cnf_matrix]
+
+    fig = ff.create_annotated_heatmap(cnf_matrix, x=x, y=y, annotation_text=z_text, colorscale='Viridis')
+
+    # add title
+    fig.update_layout(title_text='<i><b>Confusion matrix</b></i>',
+                    #xaxis = dict(title='x'),
+                    #yaxis = dict(title='x')
+                    )
+
+    # add custom xaxis title
+    fig.add_annotation(dict(font=dict(color="black",size=14),
+                            x=0.5,
+                            y=-0.15,
+                            showarrow=False,
+                            text="Predicted value",
+                            xref="paper",
+                            yref="paper"))
+    
+    # add custom yaxis title
+    fig.add_annotation(dict(font=dict(color="black",size=14),
+                        x=-0.35,
+                        y=0.5,
+                        showarrow=False,
+                        text="Real value",
+                        textangle=-90,
+                        xref="paper",
+                        yref="paper"))
+    # adjust margins to make room for yaxis title
+    fig.update_layout(margin=dict(t=50, l=200))
+
+    # add colorbar
+    fig['data'][0]['showscale'] = True
+    fig.show()
+
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    header="Analysis Results of Logistic Regression"
+    description = f"""
+    F1 score is {f1_log}. \n Accuracy is {acc_log}. 
+    """
+    return render_template('plotly.html', graphJSON=graphJSON, header=header,description=description)
+
     
 @app.route("/info", methods=["GET"])
 def info():
