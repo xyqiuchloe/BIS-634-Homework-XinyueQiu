@@ -39,9 +39,9 @@ logreg.fit(X_train_scaled, y_train.values.ravel())
 y_pred = logreg.predict(X_test_scaled)
 
 #confusion matrix
-
-
+cnf_matrix = metrics.confusion_matrix(y_test, y_pred)
 #accuracy, f1 score, 
+acc_log = metrics.accuracy_score(y_test, y_pred)
 
 @app.route("/logistic_regression")
 def log_reg_func(name):
