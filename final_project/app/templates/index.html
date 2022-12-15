@@ -20,13 +20,16 @@
         </style>
         <title>Home Page</title>
     </head>
-    <body>
-        <p>Type a complete state name (Capitalize first letter of your state name)</p><br>
-        <form action="/info" method="GET">
-            <textarea style="width:50%; height: 1em" name="name"></textarea>
-            <br><br>
-            <p>Submit your state name to find its statewise Age-Adjusted Incidence Rate of cancer(case per 10k)</p><br>
-            <input type="submit" value="Submit">
-        </form>
+    <body style="font-family:arial, sans-serif">
+        <h1 style="background:lightblue;padding:10px">
+               Prediction of Diabetes based on CDC Behavioral Risk Factor Surveillance System (BRFSS)
+        </h1>
+        
+        <p>Select one model to see its analytical results </p>
+        
+        <h1><a href="logistic_regression">Logistic Regression</a></h1>
+        <h1><a href="random_forest">Random Forest</a></h1>
+        <h1><a href="knn_classification">K-Nearest Neighbors</a></h1>
+    
     </body>
 </html>
