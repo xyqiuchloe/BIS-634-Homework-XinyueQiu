@@ -87,7 +87,6 @@ def logistic_regression():
 
     # add colorbar
     fig['data'][0]['showscale'] = True
-    fig.show()
 
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     header="Analysis Results of Logistic Regression"
