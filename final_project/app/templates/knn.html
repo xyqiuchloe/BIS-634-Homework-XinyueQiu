@@ -1,14 +1,39 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>knn</title>
+      <style type = "text/css">
+        p
+        {
+            font-family: "Myriad Pro", "sans-serif";
+            font-size: 15pt;
+            color: #4d647b;
+            font-weight: bold;
+        }
+        q {
+            color: black;
+            font-style: italic;
+            font-size: 15pt;
+        }
+        body {
+            background-color: lightblue;
+        }
+        h1
+        {
+            font-family: "Myriad Pro", "sans-serif";
+            font-size: 25pt;
+            color: black;
+            font-weight: bold;
+        }
+    </style>
+    <title>Enter k for KNN model</title>
     </head>
     <body>
-        <h1>Choose k in KNN Classification.</h1>
-        <h1>Enter a number between 2 to 10.</h1>
+        <h1>Choose k in KNN Classification</h1>
+        <p>Enter a number between 2 to 10</p>
         <form action = "/knn/info" method = "GET">
             <input autocomplete="off" autofocus name = "k" placeholder="k" type = "text"> </input>
             <button type = "submit">submit</button>
         </form>
+        <p>This might take a while...</p>
     </body>
 </html>
