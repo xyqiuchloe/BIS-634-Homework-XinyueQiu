@@ -95,16 +95,129 @@ def logistic_regression():
     """
     return render_template('plotly.html', graphJSON=graphJSON, header=header,description=description)
 
-    
-@app.route("/info", methods=["GET"])
-def info():
-    name = request.args.get('name')
-    df = pd.read_csv("incd.csv")
-    if name in df["State"].values:
-        rate = df[df["State"] == name]["Rate"].item()
-    else:
-        rate = "none"
-    return render_template("info.html", name = name, rate = rate)
+@app.route('/rf/')
+def rf():
+    return render_template('rf.html')
 
+@app.route('/rf/info',methods=["GET"])
+def rf_graph():
+    num = request.args.get("number of trees")
+    num = int(num)
+    clf=RandomForestClassifier(n_estimators=num)
+    clf.fit(X_train_scaled,y_train)
+    y_pred2=clf.predict(X_test_scaled)
+    cnf_matrix2 = metrics.confusion_matrix(y_test, y_pred2)
+    
+    #accuracy, f1 score, 
+    acc_rf = metrics.accuracy_score(y_test, y_pred2)
+    f1_rf = metrics.f1_score(y_test, y_pred2)
+
+    ##set up annotation of confusion matrix
+    x = ['no diabetes','diabetes']
+    y = ['no diabetes','diabetes']
+    z_text = [[str(y) for y in x] for x in cnf_matrix2]
+
+    fig2 = ff.create_annotated_heatmap(cnf_matrix2, x=x, y=y, annotation_text=z_text, colorscale='Viridis')
+
+    # add title
+    fig2.update_layout(title_text='<i><b>Confusion matrix</b></i>',
+                    #xaxis = dict(title='x'),
+                    #yaxis = dict(title='x')
+                    )
+
+    # add custom xaxis title
+    fig2.add_annotation(dict(font=dict(color="black",size=14),
+                            x=0.5,
+                            y=-0.15,
+                            showarrow=False,
+                            text="Predicted value",
+                            xref="paper",
+                            yref="paper"))
+    
+    # add custom yaxis title
+    fig2.add_annotation(dict(font=dict(color="black",size=14),
+                        x=-0.35,
+                        y=0.5,
+                        showarrow=False,
+                        text="Real value",
+                        textangle=-90,
+                        xref="paper",
+                        yref="paper"))
+    # adjust margins to make room for yaxis title
+    fig2.update_layout(margin=dict(t=50, l=200))
+
+    # add colorbar
+    fig2['data'][0]['showscale'] = True
+
+    graphJSON = json.dumps(fig2, cls=plotly.utils.PlotlyJSONEncoder)
+    header="Analysis Results of Random Forest"
+    description = f"""
+    F1 score is {f1_rf}. \n Accuracy is {acc_rf}. 
+    """
+    return render_template('plotly.html', graphJSON=graphJSON, header=header,description=description)
+
+@app.route('/knn/')
+def knn():
+    return render_template('knn.html')
+
+
+@app.route('/knn/info', methods=["GET"])
+def knn_graph():
+
+    num = request.args.get("k")
+    num = int(num)
+    knn = KNeighborsClassifier(n_neighbors=3)
+    knn.fit(X_train_scaled,y_train)
+    y_pred3 = knn.predict(X_test_scaled)
+    cnf_matrix3 = metrics.confusion_matrix(y_test, y_pred3)
+    cnf_matrix3
+   
+    #accuracy, f1 score, 
+    acc_knn = metrics.accuracy_score(y_test, y_pred3)
+    f1_knn = metrics.f1_score(y_test, y_pred3)
+
+    ##set up annotation of confusion matrix
+    x = ['no diabetes','diabetes']
+    y = ['no diabetes','diabetes']
+    z_text = [[str(y) for y in x] for x in cnf_matrix3]
+
+    fig3 = ff.create_annotated_heatmap(cnf_matrix3, x=x, y=y, annotation_text=z_text, colorscale='Viridis')
+
+    # add title
+    fig3.update_layout(title_text='<i><b>Confusion matrix</b></i>',
+                    #xaxis = dict(title='x'),
+                    #yaxis = dict(title='x')
+                    )
+
+    # add custom xaxis title
+    fig3.add_annotation(dict(font=dict(color="black",size=14),
+                            x=0.5,
+                            y=-0.15,
+                            showarrow=False,
+                            text="Predicted value",
+                            xref="paper",
+                            yref="paper"))
+    
+    # add custom yaxis title
+    fig3.add_annotation(dict(font=dict(color="black",size=14),
+                        x=-0.35,
+                        y=0.5,
+                        showarrow=False,
+                        text="Real value",
+                        textangle=-90,
+                        xref="paper",
+                        yref="paper"))
+    # adjust margins to make room for yaxis title
+    fig3.update_layout(margin=dict(t=50, l=200))
+
+    # add colorbar
+    fig3['data'][0]['showscale'] = True
+
+    graphJSON = json.dumps(fig3, cls=plotly.utils.PlotlyJSONEncoder)
+    header="Analysis Results of Logistic Regression"
+    description = f"""
+    F1 score is {f1_knn}. \n Accuracy is {acc_knn}. 
+    """
+    return render_template('plotly.html', graphJSON=graphJSON, header=header,description=description)
 if __name__ == "__main__":
     app.run(debug=True)
