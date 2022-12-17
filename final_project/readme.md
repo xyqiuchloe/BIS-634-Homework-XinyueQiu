@@ -1,6 +1,6 @@
 
 The Final Project is coded using 'final_project.ipynb' and 'app' folder in this directory. The 'app' folder builds up the website for analysis results visualization. 
-'final_project.ipynb' includes codes that coded for all the graphs generated for the report. 
+'final_project.ipynb' includes all codes that coded for the graphs generated for the report. 
 
 The data file is health-data.csv.
 
